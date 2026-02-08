@@ -23,4 +23,161 @@
         .form-group { margin-bottom: 18px; }
         label { display: block; margin-bottom: 8px; font-weight: 700; font-size: 0.9rem; }
         input, select { width: 100%; padding: 12px; border: 1px solid #d7ccc8; border-radius: 8px; font-size: 1rem; }
-        .item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom:
+        .item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #eee; }
+        .qty { width: 70px; text-align: center; border-radius: 20px; background: #fdf5f2; border: 1px solid var(--accent); }
+        .total-box { background: var(--primary); color: white; padding: 25px; border-radius: 12px; text-align: center; font-size: 1.5rem; margin-top: 25px; font-weight: 700; }
+        button { width: 100%; background: var(--primary); color: white; border: none; padding: 18px; font-size: 1.2rem; font-weight: 700; border-radius: 12px; cursor: pointer; margin-top: 20px; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(5px); }
+        .modal-content { background: white; padding: 30px; border-radius: 25px; max-width: 85%; text-align: center; border-top: 8px solid var(--primary); }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Cookie Co.</h1>
+    <p class="tagline">“Cookies ni Roco” — Handcrafted Happiness</p>
+</header>
+
+<div class="container">
+    <div class="notice">📢 Order Status: Accepting orders for Feb 10 Batch!</div>
+
+    <section id="menu">
+        <h3 class="section-title">The Menu</h3>
+        <div class="menu-grid">
+            <div class="card"><span>Regular Oreo</span> <span class="price">₱50</span></div>
+            <div class="card"><span>Regular Red Velvet</span> <span class="price">₱40</span></div>
+            <div class="card"><span>Mini Oreo</span> <span class="price">₱30</span></div>
+            <div class="card"><span>Mini Red Velvet</span> <span class="price">₱25</span></div>
+        </div>
+
+        <h3 class="section-title">Bundles</h3>
+        <div class="menu-grid">
+            <div class="card"><span>Any 3 Regular</span> <span class="price">₱140</span></div>
+            <div class="card"><span>Any 6 Mini</span> <span class="price">₱160</span></div>
+            <div class="card"><span>Mixed Box (3 Reg + 3 Mini)</span> <span class="price">₱210</span></div>
+            <div class="card"><span>Barkada Box (12 Minis)</span> <span class="price">₱300</span></div>
+        </div>
+    </section>
+
+    <form id="orderForm">
+        <h3 style="text-align: center; color: var(--primary);">ORDER FORM</h3>
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="name" required placeholder="Juana Dela Cruz">
+        </div>
+        <div class="form-group">
+            <label>Messenger / Contact No.</label>
+            <input type="text" id="contact" required placeholder="FB Name or Phone">
+        </div>
+        
+        <div class="form-group">
+            <label>Pick-up Date</label>
+            <select id="pickupDate" required>
+                <option value="" disabled selected>Select a Pickup Day</option>
+                <option value="Feb 10 (Tuesday)">Tuesday, Feb 10 (Week 1 Special)</option>
+                <option value="Feb 16 (Monday)">Monday, Feb 16</option>
+                <option value="Feb 23 (Monday)">Monday, Feb 23</option>
+            </select>
+        </div>
+
+        <h4 style="margin: 25px 0 10px 0; font-size: 0.9rem; color: #8d6e63;">HOW MANY COOKIES?</h4>
+        <div id="items-list">
+            <div class="item-row"><label>Regular Oreo</label><input type="number" class="qty" data-name="Reg Oreo" data-price="50" min="0" value="0"></div>
+            <div class="item-row"><label>Regular Red Velvet</label><input type="number" class="qty" data-name="Reg Red Velvet" data-price="40" min="0" value="0"></div>
+            <div class="item-row"><label>Mini Oreo</label><input type="number" class="qty" data-name="Mini Oreo" data-price="30" min="0" value="0"></div>
+            <div class="item-row"><label>Mini Red Velvet</label><input type="number" class="qty" data-name="Mini Red Velvet" data-price="25" min="0" value="0"></div>
+            <div class="item-row"><label>3 Reg Bundle</label><input type="number" class="qty" data-name="3 Reg Bundle" data-price="140" min="0" value="0"></div>
+            <div class="item-row"><label>6 Mini Bundle</label><input type="number" class="qty" data-name="6 Mini Bundle" data-price="160" min="0" value="0"></div>
+            <div class="item-row"><label>Mixed Box</label><input type="number" class="qty" data-name="Mixed Box" data-price="210" min="0" value="0"></div>
+            <div class="item-row"><label>Barkada Box</label><input type="number" class="qty" data-name="Barkada Box" data-price="300" min="0" value="0"></div>
+        </div>
+
+        <div class="form-group" style="margin-top: 20px;">
+            <label>Payment Method</label>
+            <select id="payment" required>
+                <option value="GCash">GCash</option>
+                <option value="Cash">Cash on Pickup</option>
+            </select>
+        </div>
+
+        <div class="total-box">Total: ₱<span id="totalDisplay">0</span></div>
+        <button type="submit" id="submitBtn">Send Order to Roco 🍪</button>
+    </form>
+</div>
+
+<div id="summaryModal" class="modal">
+    <div class="modal-content">
+        <h2 style="color: var(--primary);">Order Received!</h2>
+        <p id="summaryText"></p>
+        <div style="background: #fdf5f2; padding: 15px; border-radius: 10px; margin: 15px 0; text-align: left; font-size: 0.85rem;">
+            <p>📍 <b>Pickup At:</b><br>Room 404, Grade 12 - Crisologo<br>Look for Joaquin Roco</p>
+            <p>💸 <b>GCash:</b> 09178156015 (Roco)</p>
+        </div>
+        <button onclick="location.reload()">Back to Home</button>
+    </div>
+</div>
+
+<script>
+    // 1. FILL THESE IN!
+    (function(){ 
+        emailjs.init(J2LADzhwnrBzCzIvd); 
+    })();
+
+    const qtyInputs = document.querySelectorAll('.qty');
+    const totalDisplay = document.getElementById('totalDisplay');
+
+    // 2. Math Function
+    function calculateTotal() {
+        let currentTotal = 0;
+        qtyInputs.forEach(input => {
+            const price = parseInt(input.getAttribute('data-price')) || 0;
+            const quantity = parseInt(input.value) || 0;
+            currentTotal += (price * quantity);
+        });
+        totalDisplay.innerText = currentTotal;
+    }
+
+    qtyInputs.forEach(input => {
+        input.addEventListener('input', calculateTotal);
+        input.addEventListener('change', calculateTotal);
+    });
+
+    // 3. Form Submission
+    document.getElementById('orderForm').onsubmit = function(e) {
+        e.preventDefault();
+        const total = totalDisplay.innerText;
+        
+        if(total === "0") {
+            alert("Pumili muna ng cookies!");
+            return;
+        }
+
+        let orderSummary = "";
+        qtyInputs.forEach(input => {
+            if(parseInt(input.value) > 0) {
+                orderSummary += `${input.getAttribute('data-name')}: ${input.value}x\n`;
+            }
+        });
+
+        const templateParams = {
+            from_name: document.getElementById('name').value,
+            contact_info: document.getElementById('contact').value,
+            pickup_date: document.getElementById('pickupDate').value,
+            payment_method: document.getElementById('payment').value,
+            order_details: orderSummary,
+            total_price: total
+        };
+
+        alert("Sending your order...");
+
+        emailjs.send(service_oe4hwll, template_n1n73yb, templateParams)
+            .then(() => {
+                document.getElementById('summaryText').innerText = `Salamat, ${templateParams.from_name}! Total is ₱${total}.`;
+                document.getElementById('summaryModal').style.display = 'flex';
+            }, (err) => {
+                alert("Error: " + JSON.stringify(err));
+            });
+    };
+</script>
+</body>
+</html>
