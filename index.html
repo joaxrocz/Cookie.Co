@@ -116,56 +116,48 @@
 </div>
 
 <script>
-// --- DATE RESTRICTION LOGIC ---
-const datePicker = document.getElementById('pickupDate');
+    // 1. Initialize EmailJS
+    (function(){ 
+        emailjs.init("YOUR_PUBLIC_KEY"); 
+    })();
 
-// Disable typing in the date picker to force selection
-datePicker.onkeydown = (e) => e.preventDefault();
-
-// Set the available dates
-function setAvailableDates() {
-    const today = new Date();
-    
-    // Week 1 Exception: Tuesday, Feb 10, 2026
-    const week1 = "2026-02-10"; 
-    
-    // Calculate the next few Mondays
-    // This allows customers to see the next 3 weeks
-    let options = `<option value="" disabled selected>Select a Pickup Day</option>`;
-    options += `<option value="${week1}">Tuesday, Feb 10 (Week 1 Special)</option>`;
-    
-    // Logic for subsequent Mondays
-    let nextMonday = new Date("2026-02-16"); // Starting Monday for Week 2
-    for(let i=0; i<3; i++) {
-        let dateStr = nextMonday.toISOString().split('T')[0];
-        options += `<option value="${dateStr}">Monday, ${nextMonday.toDateString().split(' ').slice(1,3).join(' ')}</option>`;
-        nextMonday.setDate(nextMonday.getDate() + 7);
-    }
-    
-    // Change input type to Select for easier control
-    datePicker.outerHTML = `<select id="pickupDate" required>${options}</select>`;
-}
-
-setAvailableDates();
-    (function(){ emailjs.init(J2LADzhwnrBzCzIvd); })();
-
+    // 2. Select the elements
+    // We use .qty to find all the number boxes
     const qtyInputs = document.querySelectorAll('.qty');
     const totalDisplay = document.getElementById('totalDisplay');
 
+    console.log("Found " + qtyInputs.length + " cookie inputs."); // This should say 8
+
+    // 3. The Math Function
     function calculateTotal() {
-        let total = 0;
+        let currentTotal = 0;
+        
         qtyInputs.forEach(input => {
-            total += (parseInt(input.getAttribute('data-price')) * (parseInt(input.value) || 0));
+            const price = parseInt(input.getAttribute('data-price')) || 0;
+            const quantity = parseInt(input.value) || 0;
+            currentTotal += (price * quantity);
         });
-        totalDisplay.innerText = total;
+
+        // Update the screen
+        totalDisplay.innerText = currentTotal;
+        console.log("New Total: ₱" + currentTotal);
     }
 
-    qtyInputs.forEach(input => input.addEventListener('input', calculateTotal));
+    // 4. Listen for changes on every box
+    qtyInputs.forEach(input => {
+        input.addEventListener('input', calculateTotal);
+        input.addEventListener('change', calculateTotal);
+    });
 
+    // 5. Handling the Form Submission
     document.getElementById('orderForm').onsubmit = function(e) {
         e.preventDefault();
         const total = totalDisplay.innerText;
-        if(total == "0") return alert("Pumili muna ng cookies!");
+        
+        if(total === "0") {
+            alert("Please select at least one cookie! :)");
+            return;
+        }
 
         let orderSummary = "";
         qtyInputs.forEach(input => {
@@ -183,9 +175,11 @@ setAvailableDates();
             total_price: total
         };
 
-        emailjs.send(service_oe4hwll, template_ip3uy17, templateParams)
+        alert("Sending order to Roco...");
+
+        emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", templateParams)
             .then(() => {
-                document.getElementById('summaryText').innerText = `Salamat, ${templateParams.from_name}! Total amount is ₱${total}. Please wait for our confirmation message.`;
+                document.getElementById('summaryText').innerText = `Salamat, ${templateParams.from_name}! Total amount is ₱${total}. See you on Tuesday!`;
                 document.getElementById('summaryModal').style.display = 'flex';
             });
     };
