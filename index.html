@@ -63,11 +63,11 @@
         <h3 style="text-align: center; color: var(--primary);">ORDER FORM</h3>
         <div class="form-group">
             <label>Full Name</label>
-            <input type="text" id="name" required placeholder="Name">
+            <input type="text" id="name" required placeholder="Juana Dela Cruz">
         </div>
         <div class="form-group">
             <label>Messenger / Contact No.</label>
-            <input type="text" id="contact" required placeholder="How to reach you">
+            <input type="text" id="contact" required placeholder="FB Name or Phone">
         </div>
         
         <div class="form-group">
@@ -118,15 +118,13 @@
 </div>
 
 <script>
-    // --- INITIALIZE EMAILJS ---
     (function(){ 
-        emailjs.init("YOUR_PUBLIC_KEY"); 
+        emailjs.init("J2LADzhwnrBzCzIvd"); 
     })();
 
     const qtyInputs = document.querySelectorAll('.qty');
     const totalDisplay = document.getElementById('totalDisplay');
 
-    // --- MATH LOGIC ---
     function calculateTotal() {
         let currentTotal = 0;
         qtyInputs.forEach(input => {
@@ -142,13 +140,12 @@
         input.addEventListener('change', calculateTotal);
     });
 
-    // --- FORM SUBMISSION ---
     document.getElementById('orderForm').onsubmit = function(e) {
         e.preventDefault();
         const total = totalDisplay.innerText;
         
         if(total === "0") {
-            alert("Please select at least one cookie!");
+            alert("Pumili muna ng cookies!");
             return;
         }
 
@@ -170,9 +167,15 @@
 
         alert("Sending your order to Roco...");
 
-        emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", templateParams)
+        emailjs.send("service_oe4hwll", "template_ip3uy17", templateParams)
             .then(() => {
-                document.getElementById('summaryText').innerText = `Salamat, ${templateParams.from_name}! Total is ₱${total}. See you on ${templateParams.pickup_date}!`;
+                document.getElementById('summaryText').innerText = `Salamat, ${templateParams.from_name}! Total is ₱${total}.`;
                 document.getElementById('summaryModal').style.display = 'flex';
             }, (err) => {
-                alert("
+                alert("Error sending order. Please message Roco directly!");
+                console.error(err);
+            });
+    };
+</script>
+</body>
+</html>
