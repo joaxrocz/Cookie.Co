@@ -141,41 +141,42 @@
     });
 
     document.getElementById('orderForm').onsubmit = function(e) {
-        e.preventDefault();
-        const total = totalDisplay.innerText;
-        
-        if(total === "0") {
-            alert("Pumili muna ng cookies!");
-            return;
+    e.preventDefault();
+    const total = totalDisplay.innerText;
+    
+    if(total === "0") {
+        alert("Pumili muna ng cookies!");
+        return;
+    }
+
+    let orderSummary = "";
+    qtyInputs.forEach(input => {
+        if(parseInt(input.value) > 0) {
+            orderSummary += `${input.getAttribute('data-name')}: ${input.value}x\n`;
         }
+    });
 
-        let orderSummary = "";
-        qtyInputs.forEach(input => {
-            if(parseInt(input.value) > 0) {
-                orderSummary += `${input.getAttribute('data-name')}: ${input.value}x\n`;
-            }
-        });
-
-        const templateParams = {
-            from_name: document.getElementById('name').value,
-            contact_info: document.getElementById('contact').value,
-            pickup_date: document.getElementById('pickupDate').value,
-            payment_method: document.getElementById('payment').value,
-            order_details: orderSummary,
-            total_price: total
-        };
-
-        alert("Sending your order to Roco...");
-
-        emailjs.send("service_oe4hwll", "template_ip3uy17", templateParams)
-            .then(() => {
-                document.getElementById('summaryText').innerText = `Salamat, ${templateParams.from_name}! Total is ₱${total}.`;
-                document.getElementById('summaryModal').style.display = 'flex';
-            }, (err) => {
-                alert("Error sending order. Please message Roco directly!");
-                console.error(err);
-            });
+    const templateParams = {
+        from_name: document.getElementById('name').value,
+        contact_info: document.getElementById('contact').value,
+        pickup_date: document.getElementById('pickupDate').value,
+        payment_method: document.getElementById('payment').value,
+        order_details: orderSummary,
+        total_price: total
     };
+
+    alert("Sending your order to Roco...");
+
+    emailjs.send("service_oe4hwll", "template_ip3uy17", templateParams)
+        .then(() => {
+            document.getElementById('summaryText').innerText =
+                `Salamat, ${templateParams.from_name}! Total is ₱${total}.`;
+            document.getElementById('summaryModal').style.display = 'flex';
+        }, (err) => {
+            alert("Error sending order. Please message Roco directly!");
+            console.error(err);
+        });
+};
 </script>
 </body>
 </html>
