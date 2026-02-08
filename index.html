@@ -22,7 +22,7 @@
         form { background: var(--white); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-top: 20px; }
         .form-group { margin-bottom: 18px; }
         label { display: block; margin-bottom: 8px; font-weight: 700; font-size: 0.9rem; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #d7ccc8; border-radius: 8px; font-size: 1rem; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #d7ccc8; border-radius: 8px; font-size: 1rem; font-family: inherit; }
         .item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #eee; }
         .qty { width: 70px; text-align: center; border-radius: 20px; background: #fdf5f2; border: 1px solid var(--accent); }
         .total-box { background: var(--primary); color: white; padding: 25px; border-radius: 12px; text-align: center; font-size: 1.5rem; margin-top: 25px; font-weight: 700; }
@@ -39,7 +39,7 @@
 </header>
 
 <div class="container">
-    <div class="notice">📢 Order Status: Accepting orders for Feb 10 Batch!</div>
+    <div class="notice">📢 Batch Update: Accepting orders for Tuesday, Feb 10!</div>
 
     <section id="menu">
         <h3 class="section-title">The Menu</h3>
@@ -63,11 +63,11 @@
         <h3 style="text-align: center; color: var(--primary);">ORDER FORM</h3>
         <div class="form-group">
             <label>Full Name</label>
-            <input type="text" id="name" required placeholder="Juana Dela Cruz">
+            <input type="text" id="name" required placeholder="Name">
         </div>
         <div class="form-group">
             <label>Messenger / Contact No.</label>
-            <input type="text" id="contact" required placeholder="FB Name or Phone">
+            <input type="text" id="contact" required placeholder="How to reach you">
         </div>
         
         <div class="form-group">
@@ -80,7 +80,7 @@
             </select>
         </div>
 
-        <h4 style="margin: 25px 0 10px 0; font-size: 0.9rem; color: #8d6e63;">HOW MANY COOKIES?</h4>
+        <h4 style="margin: 25px 0 10px 0; font-size: 0.9rem; color: #8d6e63;">QUANTITY:</h4>
         <div id="items-list">
             <div class="item-row"><label>Regular Oreo</label><input type="number" class="qty" data-name="Reg Oreo" data-price="50" min="0" value="0"></div>
             <div class="item-row"><label>Regular Red Velvet</label><input type="number" class="qty" data-name="Reg Red Velvet" data-price="40" min="0" value="0"></div>
@@ -101,7 +101,7 @@
         </div>
 
         <div class="total-box">Total: ₱<span id="totalDisplay">0</span></div>
-        <button type="submit" id="submitBtn">Send Order to Roco 🍪</button>
+        <button type="submit" id="submitBtn">Confirm Order 🍪</button>
     </form>
 </div>
 
@@ -113,20 +113,20 @@
             <p>📍 <b>Pickup At:</b><br>Room 404, Grade 12 - Crisologo<br>Look for Joaquin Roco</p>
             <p>💸 <b>GCash:</b> 09178156015 (Roco)</p>
         </div>
-        <button onclick="location.reload()">Back to Home</button>
+        <button onclick="location.reload()">Done</button>
     </div>
 </div>
 
 <script>
-    // 1. FILL THESE IN!
+    // --- INITIALIZE EMAILJS ---
     (function(){ 
-        emailjs.init(J2LADzhwnrBzCzIvd); 
+        emailjs.init("YOUR_PUBLIC_KEY"); 
     })();
 
     const qtyInputs = document.querySelectorAll('.qty');
     const totalDisplay = document.getElementById('totalDisplay');
 
-    // 2. Math Function
+    // --- MATH LOGIC ---
     function calculateTotal() {
         let currentTotal = 0;
         qtyInputs.forEach(input => {
@@ -142,13 +142,13 @@
         input.addEventListener('change', calculateTotal);
     });
 
-    // 3. Form Submission
+    // --- FORM SUBMISSION ---
     document.getElementById('orderForm').onsubmit = function(e) {
         e.preventDefault();
         const total = totalDisplay.innerText;
         
         if(total === "0") {
-            alert("Pumili muna ng cookies!");
+            alert("Please select at least one cookie!");
             return;
         }
 
@@ -168,16 +168,11 @@
             total_price: total
         };
 
-        alert("Sending your order...");
+        alert("Sending your order to Roco...");
 
-        emailjs.send(service_oe4hwll, template_n1n73yb, templateParams)
+        emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", templateParams)
             .then(() => {
-                document.getElementById('summaryText').innerText = `Salamat, ${templateParams.from_name}! Total is ₱${total}.`;
+                document.getElementById('summaryText').innerText = `Salamat, ${templateParams.from_name}! Total is ₱${total}. See you on ${templateParams.pickup_date}!`;
                 document.getElementById('summaryModal').style.display = 'flex';
             }, (err) => {
-                alert("Error: " + JSON.stringify(err));
-            });
-    };
-</script>
-</body>
-</html>
+                alert("
