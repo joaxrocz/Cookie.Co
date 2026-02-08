@@ -105,12 +105,48 @@
     <div class="modal-content">
         <h2 style="color: var(--primary);">Order Placed!</h2>
         <p id="summaryText"></p>
-        <p><b>Pay via GCash:</b> 09XX-XXX-XXXX (Roco)</p>
+        <div style="background: #fdf5f2; padding: 15px; border-radius: 10px; margin: 15px 0; text-align: left; font-size: 0.9rem;">
+            <p>📍 <b>Pickup Location:</b><br>
+            Room 404, Grade 12 - Crisologo Room<br>
+            Look for <b>Joaquin Roco</b></p>
+            <p><b>Pay via GCash:</b> 09XX-XXX-XXXX (Roco)</p>
+        </div>
         <button onclick="location.reload()">Back to Home</button>
     </div>
 </div>
 
 <script>
+// --- DATE RESTRICTION LOGIC ---
+const datePicker = document.getElementById('pickupDate');
+
+// Disable typing in the date picker to force selection
+datePicker.onkeydown = (e) => e.preventDefault();
+
+// Set the available dates
+function setAvailableDates() {
+    const today = new Date();
+    
+    // Week 1 Exception: Tuesday, Feb 10, 2026
+    const week1 = "2026-02-10"; 
+    
+    // Calculate the next few Mondays
+    // This allows customers to see the next 3 weeks
+    let options = `<option value="" disabled selected>Select a Pickup Day</option>`;
+    options += `<option value="${week1}">Tuesday, Feb 10 (Week 1 Special)</option>`;
+    
+    // Logic for subsequent Mondays
+    let nextMonday = new Date("2026-02-16"); // Starting Monday for Week 2
+    for(let i=0; i<3; i++) {
+        let dateStr = nextMonday.toISOString().split('T')[0];
+        options += `<option value="${dateStr}">Monday, ${nextMonday.toDateString().split(' ').slice(1,3).join(' ')}</option>`;
+        nextMonday.setDate(nextMonday.getDate() + 7);
+    }
+    
+    // Change input type to Select for easier control
+    datePicker.outerHTML = `<select id="pickupDate" required>${options}</select>`;
+}
+
+setAvailableDates();
     (function(){ emailjs.init("YOUR_PUBLIC_KEY"); })();
 
     const qtyInputs = document.querySelectorAll('.qty');
