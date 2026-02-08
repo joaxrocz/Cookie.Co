@@ -147,7 +147,7 @@ function setAvailableDates() {
 }
 
 setAvailableDates();
-    (function(){ emailjs.init("YOUR_PUBLIC_KEY"); })();
+    (function(){ emailjs.init(J2LADzhwnrBzCzIvd); })();
 
     const qtyInputs = document.querySelectorAll('.qty');
     const totalDisplay = document.getElementById('totalDisplay');
@@ -183,7 +183,7 @@ setAvailableDates();
             total_price: total
         };
 
-        emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", templateParams)
+        emailjs.send(service_oe4hwll, template_ip3uy17, templateParams)
             .then(() => {
                 document.getElementById('summaryText').innerText = `Salamat, ${templateParams.from_name}! Total amount is ₱${total}. Please wait for our confirmation message.`;
                 document.getElementById('summaryModal').style.display = 'flex';
