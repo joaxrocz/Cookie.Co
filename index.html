@@ -39,7 +39,7 @@
 </header>
 
 <div class="container">
-    <div class="notice">📢 Batch Update: Accepting orders for Tuesday, Feb 10!</div>
+    <div class="notice">📢 Batch Update: Accepting orders for Friday, Feb 13!</div>
 
     <section id="menu">
         <h3 class="section-title">The Menu</h3>
@@ -48,14 +48,6 @@
             <div class="card"><span>Regular Red Velvet</span> <span class="price">₱40</span></div>
             <div class="card"><span>Mini Oreo</span> <span class="price">₱30</span></div>
             <div class="card"><span>Mini Red Velvet</span> <span class="price">₱25</span></div>
-        </div>
-
-        <h3 class="section-title">Bundles</h3>
-        <div class="menu-grid">
-            <div class="card"><span>Any 3 Regular</span> <span class="price">₱140</span></div>
-            <div class="card"><span>Any 6 Mini</span> <span class="price">₱160</span></div>
-            <div class="card"><span>Mixed Box (3 Reg + 3 Mini)</span> <span class="price">₱210</span></div>
-            <div class="card"><span>Barkada Box (12 Minis)</span> <span class="price">₱300</span></div>
         </div>
     </section>
 
@@ -74,29 +66,25 @@
             <label>Pick-up Date</label>
             <select id="pickupDate" required>
                 <option value="" disabled selected>Select a Pickup Day</option>
-                <option value="Feb 10 (Tuesday)">Tuesday, Feb 10 (Week 1 Special)</option>
+                <option value="Feb 13 (Friday)">Friday, Feb 13 (Weekend Batch!)</option>
                 <option value="Feb 16 (Monday)">Monday, Feb 16</option>
                 <option value="Feb 23 (Monday)">Monday, Feb 23</option>
             </select>
         </div>
 
-        <h4 style="margin: 25px 0 10px 0; font-size: 0.9rem; color: #8d6e63;">QUANTITY:</h4>
+        <h4 style="margin: 25px 0 10px 0; font-size: 0.9rem; color: #8d6e63;">SELECT QUANTITY:</h4>
         <div id="items-list">
             <div class="item-row"><label>Regular Oreo</label><input type="number" class="qty" data-name="Reg Oreo" data-price="50" min="0" value="0"></div>
             <div class="item-row"><label>Regular Red Velvet</label><input type="number" class="qty" data-name="Reg Red Velvet" data-price="40" min="0" value="0"></div>
             <div class="item-row"><label>Mini Oreo</label><input type="number" class="qty" data-name="Mini Oreo" data-price="30" min="0" value="0"></div>
             <div class="item-row"><label>Mini Red Velvet</label><input type="number" class="qty" data-name="Mini Red Velvet" data-price="25" min="0" value="0"></div>
-            <div class="item-row"><label>3 Reg Bundle</label><input type="number" class="qty" data-name="3 Reg Bundle" data-price="140" min="0" value="0"></div>
-            <div class="item-row"><label>6 Mini Bundle</label><input type="number" class="qty" data-name="6 Mini Bundle" data-price="160" min="0" value="0"></div>
-            <div class="item-row"><label>Mixed Box</label><input type="number" class="qty" data-name="Mixed Box" data-price="210" min="0" value="0"></div>
-            <div class="item-row"><label>Barkada Box</label><input type="number" class="qty" data-name="Barkada Box" data-price="300" min="0" value="0"></div>
         </div>
 
         <div class="form-group" style="margin-top: 20px;">
             <label>Payment Method</label>
             <select id="payment" required>
                 <option value="GCash">GCash</option>
-                <option value="Cash">Cash on Pickup</option>
+                <option value="Cash">Cash</option>
             </select>
         </div>
 
@@ -141,42 +129,42 @@
     });
 
     document.getElementById('orderForm').onsubmit = function(e) {
-    e.preventDefault();
-    const total = totalDisplay.innerText;
-    
-    if(total === "0") {
-        alert("Pumili muna ng cookies!");
-        return;
-    }
-
-    let orderSummary = "";
-    qtyInputs.forEach(input => {
-        if(parseInt(input.value) > 0) {
-            orderSummary += `${input.getAttribute('data-name')}: ${input.value}x\n`;
+        e.preventDefault();
+        const total = totalDisplay.innerText;
+        
+        if(total === "0") {
+            alert("Pumili muna ng cookies!");
+            return;
         }
-    });
 
-    const templateParams = {
-        from_name: document.getElementById('name').value,
-        contact_info: document.getElementById('contact').value,
-        pickup_date: document.getElementById('pickupDate').value,
-        payment_method: document.getElementById('payment').value,
-        order_details: orderSummary,
-        total_price: total
-    };
-
-    alert("Sending your order to Roco...");
-
-    emailjs.send("service_oe4hwll", "template_ip3uy17", templateParams)
-        .then(() => {
-            document.getElementById('summaryText').innerText =
-                `Salamat, ${templateParams.from_name}! Total is ₱${total}.`;
-            document.getElementById('summaryModal').style.display = 'flex';
-        }, (err) => {
-            alert("Error sending order. Please message Roco directly!");
-            console.error(err);
+        let orderSummary = "";
+        qtyInputs.forEach(input => {
+            if(parseInt(input.value) > 0) {
+                // Formatting ensures the Zapier RegEx finds the items correctly
+                orderSummary += `${input.getAttribute('data-name')}: ${input.value}x\n`;
+            }
         });
-};
+
+        const templateParams = {
+            from_name: document.getElementById('name').value,
+            contact_info: document.getElementById('contact').value,
+            pickup_date: document.getElementById('pickupDate').value,
+            payment_method: document.getElementById('payment').value,
+            order_details: orderSummary,
+            total_price: total
+        };
+
+        alert("Processing order...");
+
+        emailjs.send("service_oe4hwll", "template_ip3uy17", templateParams)
+            .then(() => {
+                document.getElementById('summaryText').innerText = `Salamat, ${templateParams.from_name}! Total is ₱${total}.`;
+                document.getElementById('summaryModal').style.display = 'flex';
+            }, (err) => {
+                alert("Error sending order. Please message Roco directly!");
+                console.error(err);
+            });
+    };
 </script>
 </body>
 </html>
