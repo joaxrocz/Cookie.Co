@@ -16,15 +16,16 @@
         .container { max-width: 600px; margin: auto; padding: 20px; }
         .notice { background: #efebe9; padding: 12px; border-radius: 8px; text-align: center; font-weight: bold; margin-bottom: 25px; border-left: 5px solid var(--primary); }
         .section-title { border-bottom: 2px solid var(--gold); display: inline-block; margin: 25px 0 15px 0; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
-        .menu-grid { display: grid; gap: 12px; }
-        .card { background: var(--white); padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; border: 1px solid #eee; }
-        .price { font-weight: 700; color: var(--primary); }
         form { background: var(--white); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-top: 20px; }
         .form-group { margin-bottom: 18px; }
         label { display: block; margin-bottom: 8px; font-weight: 700; font-size: 0.9rem; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #d7ccc8; border-radius: 8px; font-size: 1rem; font-family: inherit; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #d7ccc8; border-radius: 8px; font-size: 1rem; font-family: inherit; box-sizing: border-box; }
         .item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #eee; }
         .qty { width: 70px; text-align: center; border-radius: 20px; background: #fdf5f2; border: 1px solid var(--accent); }
+        .bundle-card { background: #fdfaf8; border: 1px solid var(--accent); padding: 15px; border-radius: 12px; margin-bottom: 15px; }
+        .bundle-details { display: none; margin-top: 15px; padding: 10px; border-top: 1px solid #ddd; font-size: 0.9rem; }
+        .bundle-flavor-row { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+        .b-qty { width: 50px; padding: 5px; text-align: center; }
         .total-box { background: var(--primary); color: white; padding: 25px; border-radius: 12px; text-align: center; font-size: 1.5rem; margin-top: 25px; font-weight: 700; }
         button { width: 100%; background: var(--primary); color: white; border: none; padding: 18px; font-size: 1.2rem; font-weight: 700; border-radius: 12px; cursor: pointer; margin-top: 20px; }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(5px); }
@@ -39,24 +40,16 @@
 </header>
 
 <div class="container">
-    <div class="notice">📢 Batch Update: Accepting orders for Friday, Feb 13!</div>
-
-    <section id="menu">
-        <h3 class="section-title">The Menu</h3>
-        <div class="menu-grid">
-            <div class="card"><span>Regular Oreo</span> <span class="price">₱50</span></div>
-            <div class="card"><span>Regular Red Velvet</span> <span class="price">₱40</span></div>
-            <div class="card"><span>Mini Oreo</span> <span class="price">₱30</span></div>
-            <div class="card"><span>Mini Red Velvet</span> <span class="price">₱25</span></div>
-        </div>
-    </section>
+    <div class="notice">📢 NOW ACCEPTING: Friday (Feb 13) Batch!</div>
 
     <form id="orderForm">
         <h3 style="text-align: center; color: var(--primary);">ORDER FORM</h3>
+        
         <div class="form-group">
             <label>Full Name</label>
             <input type="text" id="name" required placeholder="Juana Dela Cruz">
         </div>
+
         <div class="form-group">
             <label>Messenger / Contact No.</label>
             <input type="text" id="contact" required placeholder="FB Name or Phone">
@@ -68,16 +61,27 @@
                 <option value="" disabled selected>Select a Pickup Day</option>
                 <option value="Feb 13 (Friday)">Friday, Feb 13 (Weekend Batch!)</option>
                 <option value="Feb 16 (Monday)">Monday, Feb 16</option>
-                <option value="Feb 23 (Monday)">Monday, Feb 23</option>
             </select>
         </div>
 
-        <h4 style="margin: 25px 0 10px 0; font-size: 0.9rem; color: #8d6e63;">SELECT QUANTITY:</h4>
-        <div id="items-list">
-            <div class="item-row"><label>Regular Oreo</label><input type="number" class="qty" data-name="Reg Oreo" data-price="50" min="0" value="0"></div>
-            <div class="item-row"><label>Regular Red Velvet</label><input type="number" class="qty" data-name="Reg Red Velvet" data-price="40" min="0" value="0"></div>
-            <div class="item-row"><label>Mini Oreo</label><input type="number" class="qty" data-name="Mini Oreo" data-price="30" min="0" value="0"></div>
-            <div class="item-row"><label>Mini Red Velvet</label><input type="number" class="qty" data-name="Mini Red Velvet" data-price="25" min="0" value="0"></div>
+        <h4 class="section-title">Single Cookies</h4>
+        <div id="singles-list">
+            <div class="item-row"><label>Regular Oreo (₱50)</label><input type="number" class="qty single" data-name="Reg Oreo" data-price="50" min="0" value="0"></div>
+            <div class="item-row"><label>Regular Red Velvet (₱40)</label><input type="number" class="qty single" data-name="Reg Red Velvet" data-price="40" min="0" value="0"></div>
+            <div class="item-row"><label>Mini Oreo (₱30)</label><input type="number" class="qty single" data-name="Mini Oreo" data-price="30" min="0" value="0"></div>
+            <div class="item-row"><label>Mini Red Velvet (₱25)</label><input type="number" class="qty single" data-name="Mini Red Velvet" data-price="25" min="0" value="0"></div>
+        </div>
+
+        <h4 class="section-title">Bundles & Packs</h4>
+        <div class="bundle-card">
+            <div class="item-row" style="border:none; margin:0; padding:0;">
+                <label><b>Box of 6 Regulars (₱270)</b><br><small>Save ₱30! Select 6 flavors below.</small></label>
+                <input type="number" class="qty bundle-main" id="box6" data-price="270" data-size="6" min="0" value="0">
+            </div>
+            <div id="box6-details" class="bundle-details">
+                <div class="bundle-flavor-row"><span>Regular Oreo</span><input type="number" class="b-qty" data-parent="box6" data-name="Reg Oreo" min="0" value="0"></div>
+                <div class="bundle-flavor-row"><span>Regular Red Velvet</span><input type="number" class="b-qty" data-parent="box6" data-name="Reg Red Velvet" min="0" value="0"></div>
+            </div>
         </div>
 
         <div class="form-group" style="margin-top: 20px;">
@@ -97,25 +101,28 @@
     <div class="modal-content">
         <h2 style="color: var(--primary);">Order Received!</h2>
         <p id="summaryText"></p>
-        <div style="background: #fdf5f2; padding: 15px; border-radius: 10px; margin: 15px 0; text-align: left; font-size: 0.85rem;">
-            <p>📍 <b>Pickup At:</b><br>Room 404, Grade 12 - Crisologo<br>Look for Joaquin Roco</p>
-            <p>💸 <b>GCash:</b> 09178156015 (Roco)</p>
-        </div>
         <button onclick="location.reload()">Done</button>
     </div>
 </div>
 
 <script>
-    (function(){ 
-        emailjs.init("J2LADzhwnrBzCzIvd"); 
-    })();
+    (function(){ emailjs.init("J2LADzhwnrBzCzIvd"); })();
 
-    const qtyInputs = document.querySelectorAll('.qty');
     const totalDisplay = document.getElementById('totalDisplay');
+    const allQtys = document.querySelectorAll('.qty');
+
+    // Show/Hide Bundle Details
+    document.querySelectorAll('.bundle-main').forEach(input => {
+        input.addEventListener('input', function() {
+            const details = document.getElementById(this.id + '-details');
+            details.style.display = (this.value > 0) ? 'block' : 'none';
+            calculateTotal();
+        });
+    });
 
     function calculateTotal() {
         let currentTotal = 0;
-        qtyInputs.forEach(input => {
+        allQtys.forEach(input => {
             const price = parseInt(input.getAttribute('data-price')) || 0;
             const quantity = parseInt(input.value) || 0;
             currentTotal += (price * quantity);
@@ -123,27 +130,51 @@
         totalDisplay.innerText = currentTotal;
     }
 
-    qtyInputs.forEach(input => {
-        input.addEventListener('input', calculateTotal);
-        input.addEventListener('change', calculateTotal);
-    });
+    allQtys.forEach(input => input.addEventListener('input', calculateTotal));
 
     document.getElementById('orderForm').onsubmit = function(e) {
         e.preventDefault();
         const total = totalDisplay.innerText;
-        
-        if(total === "0") {
-            alert("Pumili muna ng cookies!");
-            return;
-        }
+        if(total === "0") { alert("Please select at least one cookie!"); return; }
 
-        let orderSummary = "";
-        qtyInputs.forEach(input => {
-            if(parseInt(input.value) > 0) {
-                // Formatting ensures the Zapier RegEx finds the items correctly
-                orderSummary += `${input.getAttribute('data-name')}: ${input.value}x\n`;
+        // CHECK BUNDLE TOTALS
+        let bundleError = false;
+        document.querySelectorAll('.bundle-main').forEach(bundle => {
+            const qty = parseInt(bundle.value);
+            if(qty > 0) {
+                const target = parseInt(bundle.getAttribute('data-size'));
+                let currentCount = 0;
+                document.querySelectorAll(`.b-qty[data-parent="${bundle.id}"]`).forEach(flavor => {
+                    currentCount += parseInt(flavor.value);
+                });
+                if(currentCount !== target) {
+                    alert(`Your Box of 6 has ${currentCount} cookies. Please select exactly ${target}.`);
+                    bundleError = true;
+                }
             }
         });
+        if(bundleError) return;
+
+        // PRE-PROCESS DATA FOR GOOGLE SHEETS
+        let finalCounts = { "Reg Oreo": 0, "Reg Red Velvet": 0, "Mini Oreo": 0, "Mini Red Velvet": 0 };
+
+        // Add Singles
+        document.querySelectorAll('.single').forEach(input => {
+            finalCounts[input.getAttribute('data-name')] += parseInt(input.value) || 0;
+        });
+
+        // Add Bundles (Multiply flavor choices by number of boxes)
+        document.querySelectorAll('.bundle-main').forEach(bundle => {
+            const numBoxes = parseInt(bundle.value) || 0;
+            document.querySelectorAll(`.b-qty[data-parent="${bundle.id}"]`).forEach(flavor => {
+                finalCounts[flavor.getAttribute('data-name')] += (parseInt(flavor.value) * numBoxes) || 0;
+            });
+        });
+
+        let orderSummary = "";
+        for (const [flavor, count] of Object.entries(finalCounts)) {
+            if (count > 0) orderSummary += `${flavor}: ${count}x\n`;
+        }
 
         const templateParams = {
             from_name: document.getElementById('name').value,
@@ -154,15 +185,10 @@
             total_price: total
         };
 
-        alert("Processing order...");
-
         emailjs.send("service_oe4hwll", "template_ip3uy17", templateParams)
             .then(() => {
-                document.getElementById('summaryText').innerText = `Salamat, ${templateParams.from_name}! Total is ₱${total}.`;
+                document.getElementById('summaryText').innerText = `Salamat, ${templateParams.from_name}! Order recorded.`;
                 document.getElementById('summaryModal').style.display = 'flex';
-            }, (err) => {
-                alert("Error sending order. Please message Roco directly!");
-                console.error(err);
             });
     };
 </script>
