@@ -8,69 +8,86 @@
     <style>
         :root { --main: #8d6e63; --accent: #f4e1d2; --bg: #fffbf0; --text: #4e342e; }
         body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 50px; }
-        header { background: #fff; padding: 40px 20px; text-align: center; border-bottom: 4px solid var(--main); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        h1 { font-family: 'Pacifico', cursive; color: var(--main); font-size: 2.5rem; margin: 0; }
-        .status-badge { display: inline-block; padding: 8px 15px; border-radius: 20px; font-weight: bold; margin-top: 10px; font-size: 0.8rem; letter-spacing: 0.5px; }
-        .status-on { background: #c8e6c9; color: #2e7d32; border: 1px solid #a5d6a7; }
+        header { background: #fff; padding: 30px 20px; text-align: center; border-bottom: 4px solid var(--main); }
+        h1 { font-family: 'Pacifico', cursive; color: var(--main); font-size: 2.3rem; margin: 0; }
+        .status-badge { display: inline-block; padding: 6px 12px; border-radius: 20px; font-weight: bold; margin-top: 10px; font-size: 0.75rem; background: #c8e6c9; color: #2e7d32; }
         
-        .container { max-width: 500px; margin: auto; padding: 20px; }
-        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid #f0f0f0; }
-        h3 { margin-top: 0; color: var(--main); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
+        .container { max-width: 500px; margin: auto; padding: 15px; box-sizing: border-box; }
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 15px; border: 1px solid #eee; }
+        h3 { margin-top: 0; color: var(--main); font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; }
         
-        .flavor-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f9f9f9; }
-        .qty { width: 65px; padding: 10px; border: 2px solid var(--accent); border-radius: 12px; text-align: center; font-weight: bold; font-family: inherit; }
+        /* Product Layout */
+        .flavor-card { display: flex; align-items: center; gap: 15px; padding: 15px 0; border-bottom: 1px solid #f9f9f9; }
+        .flavor-img { width: 80px; height: 80px; border-radius: 12px; object-fit: cover; background: #eee; border: 1px solid #ddd; }
+        .flavor-info { flex: 1; }
+        .flavor-info b { font-size: 0.95rem; display: block; }
+        .qty { width: 55px; padding: 8px; border: 2px solid var(--accent); border-radius: 10px; text-align: center; font-weight: bold; }
         
         .promo-box { background: #fdf5f2; padding: 12px; border-radius: 10px; font-size: 0.8rem; margin-bottom: 15px; border-left: 4px solid var(--main); }
-        .total-box { background: var(--main); color: white; padding: 20px; border-radius: 15px; text-align: center; font-size: 1.6rem; font-weight: bold; margin: 25px 0; }
+        .total-box { background: var(--main); color: white; padding: 20px; border-radius: 15px; text-align: center; font-size: 1.5rem; font-weight: bold; margin: 20px 0; }
         
-        button { width: 100%; padding: 20px; background: #1877F2; color: white; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 1.1rem; transition: transform 0.2s; }
-        button:active { transform: scale(0.98); }
-        input[type="text"], select { width: 100%; padding: 12px; border: 2px solid var(--accent); border-radius: 12px; margin-bottom: 10px; box-sizing: border-box; font-family: inherit; }
+        button { width: 100%; padding: 18px; background: #1877F2; color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+        input, select, textarea { width: 100%; padding: 12px; border: 2px solid var(--accent); border-radius: 10px; margin-bottom: 10px; box-sizing: border-box; font-family: inherit; }
+        textarea { resize: none; height: 60px; }
     </style>
 </head>
 <body>
 
 <header>
     <h1>Cookie Co.</h1>
-    <div class="status-badge status-on">🔥 OVEN IS ON: Baked to order!</div>
-    <p style="margin: 10px 0 0 0; font-weight: bold; color: #8d6e63;">Laguna Bel Air Summer Batch</p>
+    <div class="status-badge">🔥 BAKE-ON-DEMAND ACTIVATED</div>
+    <p style="font-size: 0.9rem; font-weight: 600; color: #8d6e63;">Laguna Bel Air Summer Menu</p>
 </header>
 
 <div class="container">
     <form id="orderForm">
         <div class="card">
-            <h3>1. Delivery Details</h3>
-            <input type="text" id="custName" placeholder="Your Full Name" required>
-            <select id="location" required>
-                <option value="" disabled selected>Select Village Phase</option>
-                <option value="Bel Air 1">Bel Air 1 (Free Delivery)</option>
-                <option value="Bel Air 2">Bel Air 2 (Free Delivery)</option>
-                <option value="Bel Air 3">Bel Air 3 (Free Delivery)</option>
-                <option value="Bel Air 4">Bel Air 4 (Free Delivery)</option>
-                <option value="Outside">Outside Bel Air (Lalamove)</option>
+            <h3>📍 Delivery Info</h3>
+            <input type="text" id="custName" placeholder="Full Name" required>
+            <select id="village" required>
+                <option value="" disabled selected>Select Village</option>
+                <option value="Bel Air 1">Bel Air 1</option>
+                <option value="Bel Air 2">Bel Air 2</option>
+                <option value="Bel Air 3">Bel Air 3</option>
+                <option value="Bel Air 4">Bel Air 4</option>
+                <option value="Outside">Outside Bel Air</option>
             </select>
+            <textarea id="address" placeholder="Block/Lot, Street, and Landmark" required></textarea>
         </div>
 
         <div class="card">
-            <h3>2. Choose Flavors (2tbsp size)</h3>
+            <h3>🍪 Summer Menu (2tbsp size)</h3>
             <div class="promo-box">
-                ✨ <b>Summer Deals:</b><br>
-                Singles: ₱30 | Box of 6: ₱160 | Dozen: ₱300
+                <b>DEALS:</b> Singles ₱30 | 6pcs ₱160 | Dozen ₱300
             </div>
-            <div class="flavor-item"><span>Classic Choco Chip</span><input type="number" class="qty" data-name="Choco Chip" min="0" value="0"></div>
-            <div class="flavor-item"><span>Oreo Choco Chip</span><input type="number" class="qty" data-name="Oreo Chip" min="0" value="0"></div>
-            <div class="flavor-item"><span>Red Velvet</span><input type="number" class="qty" data-name="Red Velvet" min="0" value="0"></div>
-            <div class="flavor-item"><span>S'mores Special</span><input type="number" class="qty" data-name="Smores" min="0" value="0"></div>
-        </div>
 
-        <div class="card">
-            <h3>3. Payment: GCash</h3>
-            <p style="font-size: 0.9rem; margin: 5px 0;">Number: <b>0917-XXX-XXXX</b><br>Name: <b>Joaquin R.</b></p>
-            <p style="font-size: 0.75rem; color: #666;">*Please take a screenshot of your receipt to send in the chat!</p>
+            <div class="flavor-card">
+                <img src="https://via.placeholder.com/80?text=Choco" class="flavor-img">
+                <div class="flavor-info"><b>Classic Choco Chip</b><small>Golden & Crispy</small></div>
+                <input type="number" class="qty" data-name="Choco Chip" min="0" value="0">
+            </div>
+
+            <div class="flavor-card">
+                <img src="https://via.placeholder.com/80?text=Oreo" class="flavor-img">
+                <div class="flavor-info"><b>Oreo Choco Chip</b><small>White & Dark Choco</small></div>
+                <input type="number" class="qty" data-name="Oreo Chip" min="0" value="0">
+            </div>
+
+            <div class="flavor-card">
+                <img src="https://via.placeholder.com/80?text=RV" class="flavor-img">
+                <div class="flavor-info"><b>Red Velvet</b><small>Cocoa + Creamy</small></div>
+                <input type="number" class="qty" data-name="Red Velvet" min="0" value="0">
+            </div>
+
+            <div class="flavor-card">
+                <img src="https://via.placeholder.com/80?text=Smores" class="flavor-img">
+                <div class="flavor-info"><b>S'mores Special</b><small>Marshmallow Center</small></div>
+                <input type="number" class="qty" data-name="Smores" min="0" value="0">
+            </div>
         </div>
 
         <div class="total-box">Total: ₱<span id="totalDisplay">0</span></div>
-        <button type="submit">Confirm on Messenger 💬</button>
+        <button type="submit">Place Order & Send Receipt 💬</button>
     </form>
 </div>
 
@@ -85,7 +102,6 @@
         let finalPrice = 0;
         let remaining = totalCount;
 
-        // Discount Logic
         const dozens = Math.floor(remaining / 12);
         finalPrice += dozens * 300;
         remaining %= 12;
@@ -95,7 +111,6 @@
         remaining %= 6;
 
         finalPrice += remaining * 30;
-
         totalDisplay.innerText = finalPrice;
     }
 
@@ -110,13 +125,13 @@
         });
 
         const name = document.getElementById('custName').value;
-        const loc = document.getElementById('location').value;
+        const village = document.getElementById('village').value;
+        const address = document.getElementById('address').value;
         const total = totalDisplay.innerText;
 
-        if(total == "0") { alert("Please pick at least one cookie!"); return; }
+        if(total == "0") { alert("Please select a cookie!"); return; }
 
-        // Messenger Link for https://www.facebook.com/Joaxrocz/
-        const message = `BREAD CRUMB: Hi Roco! I'm ${name} from ${loc}. 🍪\n\nOrder: ${orderString.slice(0, -2)}\nTotal: ₱${total}\n\nAttached is my GCash receipt!`;
+        const message = `BREAD CRUMB: New Order! 🍪\n\nName: ${name}\nVillage: ${village}\nAddress: ${address}\n\nOrder: ${orderString.slice(0, -2)}\nTotal: ₱${total}\n\nI'm sending my GCash receipt now!`;
         const fbLink = `https://m.me/Joaxrocz?text=${encodeURIComponent(message)}`;
 
         window.open(fbLink, '_blank');
