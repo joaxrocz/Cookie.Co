@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cookie Co. | Checkout</title>
+    <title>Cookie Co. | Order</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&family=Pacifico&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -17,59 +17,63 @@
         h3 { margin: 0 0 12px 0; font-size: 1rem; color: var(--brand); text-transform: uppercase; letter-spacing: 1px; }
 
         /* Bundle Selection */
-        .bundle-options { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .bundle-btn { border: 2px solid #eee; background: white; padding: 10px; border-radius: 12px; cursor: pointer; text-align: center; transition: 0.2s; }
+        .bundle-options { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+        .bundle-btn { border: 2px solid #eee; background: white; padding: 10px; border-radius: 12px; cursor: pointer; text-align: center; transition: 0.2s; position: relative; }
         .bundle-btn.active { border-color: var(--brand); background: #fdf5f2; }
-        .bundle-btn b { display: block; font-size: 0.9rem; }
+        .bundle-btn b { display: block; font-size: 0.85rem; }
         .bundle-btn span { font-size: 0.7rem; opacity: 0.7; }
+        
+        .clear-btn { font-size: 0.7rem; color: #888; text-decoration: underline; cursor: pointer; display: block; text-align: right; margin-bottom: 15px; }
 
         /* Item List */
-        .item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f9f9f9; }
-        .stepper { display: flex; align-items: center; gap: 8px; background: #f5f5f5; border-radius: 20px; padding: 4px 8px; }
-        .step-btn { width: 28px; height: 28px; border-radius: 50%; border: none; background: white; font-weight: bold; cursor: pointer; }
+        .item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f9f9f9; }
+        .stepper { display: flex; align-items: center; gap: 10px; background: #f5f5f5; border-radius: 20px; padding: 5px 10px; }
+        .step-btn { width: 30px; height: 30px; border-radius: 50%; border: none; background: white; font-weight: bold; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .count { min-width: 20px; text-align: center; font-weight: 600; }
         
         input, select, textarea { width: 100%; padding: 12px; border: 1.5px solid #eee; border-radius: 10px; margin-bottom: 8px; font-family: inherit; box-sizing: border-box; }
 
-        /* Footer */
-        .footer-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 20px; border-top: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; z-index: 100; }
+        /* Footer Bar */
+        .footer-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 20px; border-top: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; z-index: 100; box-shadow: 0 -5px 15px rgba(0,0,0,0.03); }
         .order-btn { background: var(--brand); color: white; border: none; padding: 15px 25px; border-radius: 12px; font-weight: 600; cursor: pointer; }
 
         /* Invoice Modal */
-        #invoiceModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; overflow-y: auto; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
-        .invoice-box { background: white; width: 100%; max-width: 320px; padding: 25px; border-radius: 10px; color: black; border: 1px solid #ddd; }
+        #invoiceModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
+        .invoice-box { background: white; width: 100%; max-width: 320px; padding: 25px; border-radius: 12px; color: #333; }
     </style>
 </head>
 <body>
 
 <header>
     <h1>Cookie Co.</h1>
-    <p style="font-size: 0.8rem; margin: 0; opacity: 0.6;">LBA Summer Edition</p>
+    <p style="font-size: 0.8rem; margin: 0; opacity: 0.6;">Handcrafted in Laguna Bel Air</p>
 </header>
 
 <div class="container">
     <div class="section-card">
-        <h3>1. Details</h3>
+        <h3>1. Delivery Details</h3>
         <input type="text" id="name" placeholder="Full Name">
         <select id="village">
-            <option value="Bel Air 1">Bel Air 1</option><option value="Bel Air 2">Bel Air 2</option>
-            <option value="Bel Air 3">Bel Air 3</option><option value="Bel Air 4">Bel Air 4</option>
-            <option value="Outside">Outside Bel Air</option>
+            <option>Bel Air 1</option><option>Bel Air 2</option>
+            <option>Bel Air 3</option><option>Bel Air 4</option>
+            <option>Outside Bel Air</option>
         </select>
-        <textarea id="address" placeholder="Block/Lot, Street Name"></textarea>
+        <textarea id="address" placeholder="Block/Lot, Street Name, Landmark"></textarea>
     </div>
 
     <div class="section-card">
-        <h3>2. Select Your Pack</h3>
+        <h3>2. Bundle Deals (Optional)</h3>
         <div class="bundle-options">
-            <div class="bundle-btn active" onclick="setBundle(1, 30, this)"><b>Solo</b><span>₱30</span></div>
-            <div class="bundle-btn" onclick="setBundle(6, 160, this)"><b>Box of 6</b><span>₱160</span></div>
-            <div class="bundle-btn" onclick="setBundle(12, 300, this)"><b>Dozen</b><span>₱300</span></div>
+            <div class="bundle-btn" onclick="selectBundle(6, 160, this)"><b>Box of 6</b><span>₱160</span></div>
+            <div class="bundle-btn" onclick="selectBundle(12, 300, this)"><b>Dozen</b><span>₱300</span></div>
+            <div class="bundle-btn" onclick="selectBundle(24, 580, this)"><b>Double Dozen</b><span>₱580</span></div>
         </div>
-        <p id="limit-msg" style="font-size: 0.75rem; color: var(--brand); font-weight: 600;">Selection: 0 / 1 cookies</p>
+        <span class="clear-btn" onclick="clearBundle()">Clear Bundle (Order by piece)</span>
+        <p id="limit-msg" style="font-size: 0.75rem; color: var(--brand); font-weight: 600;">Mode: Regular Ordering (₱30/pc)</p>
     </div>
 
     <div class="section-card">
-        <h3>3. Pick Flavors</h3>
+        <h3>3. Your Cookies</h3>
         <div id="flavors">
             <div class="item"><span>Classic Choco Chip</span><div class="stepper"><button class="step-btn" onclick="changeQty('Classic', -1)">-</button><span class="count" id="Classic">0</span><button class="step-btn" onclick="changeQty('Classic', 1)">+</button></div></div>
             <div class="item"><span>Oreo Choco Chip</span><div class="stepper"><button class="step-btn" onclick="changeQty('Oreo', -1)">-</button><span class="count" id="Oreo">0</span><button class="step-btn" onclick="changeQty('Oreo', 1)">+</button></div></div>
@@ -80,75 +84,99 @@
 </div>
 
 <div class="footer-bar">
-    <div class="price-tag" style="font-weight:bold; font-size: 1.2rem;">Total: ₱<span id="total-val">30</span></div>
+    <div class="price-tag" style="font-weight:bold; font-size: 1.2rem;">Total: ₱<span id="total-val">0</span></div>
     <button class="order-btn" onclick="generateInvoice()">Create Invoice</button>
 </div>
 
 <div id="invoiceModal">
-    <div style="text-align: center;">
-        <div class="invoice-box" id="invoice-capture">
-            <h2 style="font-family:'Pacifico'; margin:0; color:#444;">Cookie Co.</h2>
-            <hr>
-            <div id="inv-content" style="text-align: left; font-size: 0.85rem;"></div>
-            <hr>
-            <p style="font-size: 0.7rem; margin:0;">GCash: 0917-XXX-XXXX (Joaquin R.)</p>
+    <div style="text-align: center; width: 100%;">
+        <div class="invoice-box" id="invoice-capture" style="margin: auto;">
+            <h2 style="font-family:'Pacifico'; margin:0; color:var(--brand);">Cookie Co.</h2>
+            <p style="font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Official Summer Invoice</p>
+            <hr style="border: 1px dashed #eee;">
+            <div id="inv-content" style="text-align: left; font-size: 0.85rem; line-height: 1.4;"></div>
+            <hr style="border: 1px dashed #eee;">
+            <p style="font-size: 0.7rem; margin:10px 0 0 0;">GCash: 0917-XXX-XXXX (Joaquin R.)</p>
         </div>
-        <button class="order-btn" style="margin-top:20px; background:#2e7d32;" onclick="downloadInvoice()">Download & Open Messenger</button>
-        <p style="color:white; font-size:0.7rem; margin-top:10px;" onclick="document.getElementById('invoiceModal').style.display='none'">← Back to Menu</p>
+        <button class="order-btn" style="margin-top:20px; background:#2e7d32; width: 320px;" onclick="downloadInvoice()">Save Invoice & Message Roco</button>
+        <p style="color:white; font-size:0.8rem; margin-top:15px; cursor:pointer;" onclick="document.getElementById('invoiceModal').style.display='none'">Back to Menu</p>
     </div>
 </div>
 
 <script>
-    let currentLimit = 1;
-    let currentPrice = 30;
+    let activeBundle = null; // Stores { limit, price }
 
-    function setBundle(limit, price, btn) {
+    function selectBundle(limit, price, btn) {
         document.querySelectorAll('.bundle-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        currentLimit = limit;
-        currentPrice = price;
-        // Reset counts when switching bundles to prevent errors
-        document.querySelectorAll('.count').forEach(s => s.innerText = "0");
+        activeBundle = { limit, price };
+        
+        // Reset counts to 0 to avoid overflow when switching to a smaller bundle
+        document.querySelectorAll('.count').forEach(c => c.innerText = "0");
+        updateUI();
+    }
+
+    function clearBundle() {
+        document.querySelectorAll('.bundle-btn').forEach(b => b.classList.remove('active'));
+        activeBundle = null;
         updateUI();
     }
 
     function changeQty(id, val) {
         const el = document.getElementById(id);
         let count = parseInt(el.innerText);
-        let total = 0;
-        document.querySelectorAll('.count').forEach(s => total += parseInt(s.innerText));
+        let totalCookies = 0;
+        document.querySelectorAll('.count').forEach(c => totalCookies += parseInt(c.innerText));
 
-        if (val > 0 && total >= currentLimit) {
-            alert(`Your pack is full! (${currentLimit} cookies)`);
+        if (val > 0 && activeBundle && totalCookies >= activeBundle.limit) {
+            alert(`Bundle Limit Reached! Clear bundle if you want to order more.`);
             return;
         }
+
         el.innerText = Math.max(0, count + val);
         updateUI();
     }
 
     function updateUI() {
-        let total = 0;
-        document.querySelectorAll('.count').forEach(s => total += parseInt(s.innerText));
-        document.getElementById('limit-msg').innerText = `Selection: ${total} / ${currentLimit} cookies`;
-        document.getElementById('total-val').innerText = currentPrice;
+        let totalCookies = 0;
+        document.querySelectorAll('.count').forEach(c => totalCookies += parseInt(c.innerText));
+        
+        let displayPrice = 0;
+        if (activeBundle) {
+            displayPrice = activeBundle.price;
+            document.getElementById('limit-msg').innerText = `Bundle Mode: ${totalCookies} / ${activeBundle.limit} cookies filled.`;
+        } else {
+            displayPrice = totalCookies * 30;
+            document.getElementById('limit-msg').innerText = `Regular Mode: ₱30 per piece.`;
+        }
+        
+        document.getElementById('total-val').innerText = displayPrice;
     }
 
     function generateInvoice() {
         const name = document.getElementById('name').value;
         const addr = document.getElementById('address').value;
-        if(!name || !addr) { alert("Fill in your name and address!"); return; }
+        let totalCookies = 0;
+        document.querySelectorAll('.count').forEach(c => totalCookies += parseInt(c.innerText));
+
+        if(!name || !addr || totalCookies === 0) { 
+            alert("Please provide name, address, and select at least one cookie!"); 
+            return; 
+        }
 
         let flavors = "";
-        document.querySelectorAll('.count').forEach(s => {
-            if(parseInt(s.innerText) > 0) flavors += `<p style="margin:4px 0;">• ${s.id} (${s.innerText}x)</p>`;
+        document.querySelectorAll('.count').forEach(c => {
+            if(parseInt(c.innerText) > 0) flavors += `<p style="margin:4px 0;">• ${c.id} Flavor (${c.innerText}x)</p>`;
         });
 
         document.getElementById('inv-content').innerHTML = `
-            <b>To:</b> ${name}<br>
+            <b>Customer:</b> ${name}<br>
             <b>Village:</b> ${document.getElementById('village').value}<br>
             <b>Address:</b> ${addr}<br><br>
-            <b>Order:</b><br>${flavors}
-            <p style="font-weight:bold; font-size:1.1rem; border-top:1px solid #eee; padding-top:10px;">Total: ₱${currentPrice}</p>
+            <b>Order Details:</b><br>${flavors}
+            <div style="margin-top:15px; padding-top:10px; border-top: 2px solid #eee; font-size:1.1rem; font-weight:bold;">
+                Total Amount: ₱${document.getElementById('total-val').innerText}
+            </div>
         `;
         document.getElementById('invoiceModal').style.display = 'flex';
     }
@@ -156,14 +184,13 @@
     function downloadInvoice() {
         html2canvas(document.querySelector("#invoice-capture")).then(canvas => {
             let link = document.createElement('a');
-            link.download = 'CookieCo_Invoice.png';
+            link.download = `CookieCo_${document.getElementById('name').value}.png`;
             link.href = canvas.toDataURL();
             link.click();
             
-            // Wait 1 second then open messenger
             setTimeout(() => {
                 window.open("https://m.me/Joaxrocz", "_blank");
-            }, 1000);
+            }, 800);
         });
     }
 </script>
