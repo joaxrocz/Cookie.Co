@@ -3,203 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cookie Co. | Classic Choco Chip</title>
+    <title>Cookie Co. | Order Choco Chip</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&family=Pacifico&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        :root { --brand: #6d4c41; --cream: #fffaf0; --white: #ffffff; --accent: #d7ccc8; --text: #3e2723; --success: #2e7d32; --fb: #1877F2; }
+        :root { --brand: #6d4c41; --cream: #fffaf0; --white: #ffffff; --text: #3e2723; --success: #2e7d32; --fb: #1877F2; }
         body { font-family: 'Outfit', sans-serif; background: var(--cream); color: var(--text); margin: 0; padding-bottom: 120px; }
         header { background: var(--white); padding: 30px 20px; text-align: center; border-bottom: 1px solid #eee; }
         h1 { font-family: 'Pacifico', cursive; color: var(--brand); font-size: 2.2rem; margin: 0; }
         .tagline { font-size: 0.8rem; margin: 5px 0 0 0; opacity: 0.7; letter-spacing: 1px; text-transform: uppercase; }
 
         .container { max-width: 450px; margin: auto; padding: 15px; box-sizing: border-box; }
-        
         .section-card { background: var(--white); padding: 25px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 15px; border: 1px solid #eee; }
         h3 { margin: 0 0 15px 0; font-size: 1rem; color: var(--brand); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; }
 
         /* Product Showcase */
-        .product-hero { text-align: center; padding-bottom: 15px; }
-        .hero-img { width: 100%; max-width: 250px; height: 250px; border-radius: 25px; object-fit: cover; background: #f0f0f0; border: 1px solid #ddd; margin-bottom: 15px; }
-        .hero-title { font-size: 1.4rem; font-weight: 600; color: var(--brand); }
-        .hero-desc { font-size: 0.9rem; opacity: 0.7; margin: 5px 0 20px 0; line-height: 1.4; }
+        .product-hero { text-align: center; }
+        .hero-img { width: 100%; max-width: 250px; height: 250px; border-radius: 25px; object-fit: cover; border: 1px solid #ddd; margin-bottom: 15px; background: #f0f0f0;}
+        .hero-title { font-size: 1.4rem; font-weight: 600; color: var(--brand); margin: 0; }
+        .hero-desc { font-size: 0.9rem; opacity: 0.7; margin: 10px 0; line-height: 1.5; }
+        .price-badge { display: inline-block; background: #fdf5f2; color: var(--brand); padding: 8px 16px; border-radius: 30px; font-weight: 600; font-size: 1.1rem; }
 
-        /* Order Details */
-        .input-group { margin-bottom: 15px; }
-        input, select, textarea { width: 100%; padding: 14px; border: 1.5px solid #eee; border-radius: 12px; font-family: inherit; font-size: 1rem; box-sizing: border-box; }
+        /* Input Styling */
+        input, select, textarea { width: 100%; padding: 14px; border: 1.5px solid #eee; border-radius: 12px; font-family: inherit; font-size: 1rem; box-sizing: border-box; margin-top: 8px; }
         input:focus { border-color: var(--brand); outline: none; }
         textarea { resize: none; height: 70px; }
-
-        /* Footer */
-        .footer-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); padding: 20px 25px; border-top: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; z-index: 100; box-shadow: 0 -5px 15px rgba(0,0,0,0.03); }
-        .total-box { line-height: 1.1; }
-        .total-label { font-size: 0.8rem; opacity: 0.6; display: block; }
-        .total-val { font-size: 1.6rem; font-weight: 600; color: var(--brand); }
         
-        .review-btn { background: var(--brand); color: white; border: none; padding: 16px 30px; border-radius: 15px; font-weight: 600; font-family: inherit; cursor: pointer; }
+        /* Footer Bar */
+        .footer-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); padding: 20px 25px; border-top: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; z-index: 100; box-shadow: 0 -5px 15px rgba(0,0,0,0.03); }
+        .total-val { font-size: 1.6rem; font-weight: 600; color: var(--brand); }
+        .review-btn { background: var(--brand); color: white; border: none; padding: 16px 30px; border-radius: 15px; font-weight: 600; cursor: pointer; }
 
         /* Invoice Modal */
         #invoiceModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
-        .invoice-box { background: white; width: 100%; max-width: 320px; padding: 25px; border-radius: 15px; color: #333; text-align: left; border: 1px solid #ddd; }
+        .invoice-box { background: white; width: 100%; max-width: 320px; padding: 25px; border-radius: 15px; color: #333; text-align: left; }
         .invoice-header { text-align: center; border-bottom: 2px dashed #eee; padding-bottom: 15px; margin-bottom: 15px; }
         
-        .step-button { width: 100%; padding: 16px; border-radius: 12px; font-weight: bold; margin-top: 10px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 1rem; }
+        .step-button { width: 100%; padding: 16px; border-radius: 12px; font-weight: bold; margin-top: 10px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .btn-save { background: var(--success); color: white; }
-        .btn-messenger { background: var(--fb); color: white; display: none; } /* Hidden until saved */
+        .btn-messenger { background: var(--fb); color: white; display: none; }
     </style>
 </head>
 <body>
 
 <header>
     <h1>Cookie Co.</h1>
-    <p class="tagline">Summer Launch • Laguna Bel Air</p>
+    <p class="tagline">Bel Air Exclusive • Summer '26</p>
 </header>
 
 <div class="container">
     <div class="section-card product-hero">
-        <img src="https://via.placeholder.com/250x250?text=Choco+Chip+Hero" class="hero-img" alt="Classic Choco Chip">
-        <h2 class="hero-title">The Classic Choco Chip</h2>
-        <p class="hero-desc">Our signature golden dough, baked to a perfect "soft-on-the-inside" chewiness and loaded with semi-sweet chocolate chips. Handcrafted daily in Bel Air.</p>
-        <div style="font-size: 0.85rem; background: #fdf5f2; color: var(--brand); padding: 12px; border-radius: 10px; font-weight: 600;">
-            ✨ DEALS: Singles ₱30 | 4pcs ₱110 | 6pcs ₱160 | Dozen ₱300
-        </div>
+        <img src="choco-chip-hero.jpg" class="hero-img" alt="Classic Choco Chip" onerror="this.onerror=null;this.src='https://via.placeholder.com/250x250?text=Upload+choco-chip-hero.jpg'">
+        <h2 class="hero-title">Classic Choco Chip</h2>
+        <p class="hero-desc">Thick, chewy, and loaded with premium, melty chocolate chunks. Hand-scooped daily in Bel Air for that perfect "soft-on-the-inside" chewiness.</p>
+        <div class="price-badge">₱35 per cookie</div>
     </div>
 
     <div class="section-card">
         <h3>1. Your Details</h3>
         <input type="text" id="name" placeholder="Full Name" required>
         <select id="village" required style="margin-top: 10px;">
-            <option value="" disabled selected>Select LBA Phase</option>
+            <option value="" disabled selected>Village Phase</option>
             <option>Bel Air 1</option><option>Bel Air 2</option>
             <option>Bel Air 3</option><option>Bel Air 4</option>
             <option>Outside Bel Air</option>
         </select>
-        <textarea id="address" placeholder="Block/Lot, Street Name, or Milestone/Landmark" required style="margin-top: 10px;"></textarea>
+        <textarea id="address" placeholder="Block/Lot, Street Name, and Landmark" required style="margin-top: 10px;"></textarea>
     </div>
 
     <div class="section-card" style="margin-bottom: 100px;">
-        <h3>2. Quantity</h3>
-        <p style="font-size: 0.8rem; color: #888; margin-bottom: 10px;">How many "2tbsp size" cookies would you like?</p>
-        <input type="number" id="choco-qty" min="1" value="1" placeholder="Quantity" required style="font-weight:bold; font-size:1.2rem; text-align:center;">
+        <h3>2. Quantity (2tbsp size)</h3>
+        <p style="font-size: 0.8rem; color: #888; margin-bottom: 10px;">Specify how many of our handcrafted cookies you would like.</p>
+        <input type="number" id="qty" min="1" value="1" placeholder="Qty" required style="font-weight:bold; font-size:1.2rem; text-align:center;">
     </div>
 </div>
 
 <div class="footer-bar">
-    <div class="total-box">
-        <span class="total-label">Total Amount</span>
-        <span class="total-val">₱<span id="total-val">30</span></span>
+    <div>
+        <span style="font-size:0.8rem; opacity:0.6; display:block;">Total Amount</span>
+        <span class="total-val">₱<span id="price-text">35</span></span>
     </div>
-    <button class="review-btn" onclick="generateInvoice()">Review Order</button>
+    <button class="review-btn" onclick="openInvoice()">Review Order</button>
 </div>
 
 <div id="invoiceModal">
     <div style="text-align: center; width: 100%;">
-        <div class="invoice-box" id="invoice-capture" style="margin: auto;">
+        <div class="invoice-box" id="capture-area" style="margin: auto;">
             <div class="invoice-header">
                 <h2 style="font-family:'Pacifico'; margin:0; color:var(--brand); font-size: 1.8rem;">Cookie Co.</h2>
-                <p style="font-size: 0.6rem; letter-spacing: 1.5px; margin: 5px 0 0 0;">SUMMER '26 ORDER RECEIPT</p>
+                <p style="font-size: 0.6rem; letter-spacing: 1.5px; margin: 5px 0 0 0;">OFFICIAL SUMMERY RECEIPT</p>
             </div>
             
-            <div id="inv-content" style="font-size: 0.85rem; line-height: 1.5;"></div>
+            <div id="inv-details" style="font-size: 0.85rem; line-height: 1.6; padding: 10px 0;"></div>
             
             <div class="invoice-header" style="border-top: 2px dashed #eee; border-bottom: none; margin-top: 15px; padding-top: 15px;">
-                <p style="font-size: 0.75rem; margin:0;">GCash: 0917-XXX-XXXX</p>
-                <p style="font-size: 0.75rem; margin:2px 0 0 0;">Name: Joaquin Roco C.</p>
+                <p style="font-size: 0.75rem; margin:0;">GCash: 0917-815-6015</p>
+                <p style="font-size: 0.75rem; margin:2px 0 0 0;">Joaquin Roco C.</p>
             </div>
         </div>
 
         <div style="max-width: 320px; margin: 20px auto;">
-            <button id="saveBtn" class="step-button btn-save" onclick="downloadInvoice()">
-                1. Save Receipt Image 📸
-            </button>
-            
-            <button id="msgBtn" class="step-button btn-messenger" onclick="goToMessenger()">
-                2. Send & Confirm 💬
-            </button>
-
-            <p style="color:white; font-size:0.8rem; margin-top:20px; cursor:pointer; text-decoration:underline;" onclick="closeModal()">← Edit Order</p>
+            <button id="saveBtn" class="step-button btn-save" onclick="saveInvoice()">1. Save Receipt Image 📸</button>
+            <button id="msgBtn" class="step-button btn-messenger" onclick="sendToRoco()">2. Send to Roco 💬</button>
+            <p style="color:white; font-size:0.8rem; margin-top:15px; cursor:pointer; text-decoration:underline;" onclick="closeModal()">← Edit Order</p>
         </div>
     </div>
 </div>
 
 <script>
-    const qtyInput = document.getElementById('choco-qty');
-    const totalDisplay = document.getElementById('total-val');
+    const qtyInput = document.getElementById('qty');
+    const priceText = document.getElementById('price-text');
 
-    qtyInput.addEventListener('input', updateTotal);
+    qtyInput.addEventListener('input', () => {
+        let q = parseInt(qtyInput.value) || 0;
+        if (q < 0) q = 0; // Prevent negative input
+        priceText.innerText = q * 35;
+    });
 
-    function updateTotal() {
-        let totalQty = parseInt(qtyInput.value) || 0;
-        if (totalQty < 0) totalQty = 0; // Prevent negative input
-        
-        let price = 0;
-        let rem = totalQty;
-        
-        // Smart Bundle Logic (Automatic application)
-        price += Math.floor(rem / 12) * 300; rem %= 12; // Dozen (300)
-        price += Math.floor(rem / 6) * 160; rem %= 6; // 6pcs (160)
-        price += Math.floor(rem / 4) * 110; rem %= 4; // 4pcs (110)
-        price += rem * 30; // Singles (30)
-        
-        totalDisplay.innerText = price;
-    }
-
-    function generateInvoice() {
+    function openInvoice() {
         const name = document.getElementById('name').value;
         const addr = document.getElementById('address').value;
         const village = document.getElementById('village').value;
         const qty = qtyInput.value;
 
         if(!name || !addr || !village || qty < 1) { 
-            alert("Please complete details and select at least 1 cookie."); 
+            alert("Oops! We need your Name, Address, and at least 1 Cookie."); 
             return; 
         }
 
-        document.getElementById('inv-content').innerHTML = `
+        document.getElementById('inv-details').innerHTML = `
             <b>Name:</b> ${name}<br>
             <b>Village:</b> ${village}<br>
             <b>Address:</b> ${addr}<br><br>
             <div style="padding: 10px; background: #f9f9f9; border-radius: 8px;">
-                <b>Item:</b> Classic Choco Chip (2tbsp)<br>
-                <b>Quantity:</b> ${qty}x
+                <b>Item:</b> Classic Choco Chip<br>
+                <b>Quantity:</b> ${qtyInput.value} pcs
             </div>
-            <div style="margin-top:15px; padding-top:10px; border-top: 1px solid #eee; font-size:1.1rem; font-weight:bold; color: var(--brand);">
-                Total Amount Due: ₱${totalDisplay.innerText}
-            </div>
+            <div style="font-size:1.1rem; font-weight:bold; margin-top:10px; color: var(--brand);">Total Amount: ₱${priceText.innerText}</div>
         `;
         document.getElementById('invoiceModal').style.display = 'flex';
     }
 
-    function downloadInvoice() {
-        // Hide the review modal content slightly to make it look active
-        document.querySelector("#invoice-capture").style.opacity = "0.9";
-        
-        html2canvas(document.querySelector("#invoice-capture")).then(canvas => {
+    function saveInvoice() {
+        html2canvas(document.querySelector("#capture-area")).then(canvas => {
             let link = document.createElement('a');
-            // Filename: Receipt_Juan_Dela_Cruz.png
             link.download = `Receipt_${document.getElementById('name').value.replace(/ /g,"_")}.png`;
             link.href = canvas.toDataURL();
             link.click();
             
-            // UI Update: Transition from Step 1 to Step 2
+            // Step-by-Step UI Update
+            document.getElementById('saveBtn').innerText = "Receipt Saved! ✓";
             document.getElementById('saveBtn').style.opacity = "0.6";
-            document.getElementById('saveBtn').innerHTML = "Receipt Saved! ✓";
             document.getElementById('msgBtn').style.display = "flex";
         });
     }
 
-    function goToMessenger() {
-        // Direct reliable redirect to mobile app/web messenger
+    function sendToRoco() {
         window.location.href = "https://m.me/Joaxrocz";
     }
 
     function closeModal() {
         document.getElementById('invoiceModal').style.display = 'none';
-        // Reset modal state
         document.getElementById('msgBtn').style.display = "none";
         document.getElementById('saveBtn').style.opacity = "1";
-        document.getElementById('saveBtn').innerHTML = "1. Save Receipt Image 📸";
-        document.querySelector("#invoice-capture").style.opacity = "1";
+        document.getElementById('saveBtn').innerText = "1. Save Receipt Image 📸";
     }
 </script>
 </body>
