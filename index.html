@@ -3,43 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cookie Co. | Order Choco Chip</title>
+    <title>The Soft Center | Freshly Baked Cookies</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&family=Pacifico&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        :root { --brand: #6d4c41; --cream: #fffaf0; --white: #ffffff; --text: #3e2723; --success: #2e7d32; --fb: #1877F2; }
+        :root { --brand: #5d4037; --cream: #fffaf0; --white: #ffffff; --text: #3e2723; --success: #2e7d32; --fb: #1877F2; }
         body { font-family: 'Outfit', sans-serif; background: var(--cream); color: var(--text); margin: 0; padding-bottom: 120px; }
-        header { background: var(--white); padding: 30px 20px; text-align: center; border-bottom: 1px solid #eee; }
-        h1 { font-family: 'Pacifico', cursive; color: var(--brand); font-size: 2.2rem; margin: 0; }
-        .tagline { font-size: 0.8rem; margin: 5px 0 0 0; opacity: 0.7; letter-spacing: 1px; text-transform: uppercase; }
+        header { background: var(--white); padding: 35px 20px; text-align: center; border-bottom: 1px solid #f0e6d6; }
+        h1 { font-family: 'Pacifico', cursive; color: var(--brand); font-size: 2.4rem; margin: 0; }
+        .tagline { font-size: 0.85rem; margin: 5px 0 0 0; opacity: 0.7; letter-spacing: 2px; text-transform: uppercase; }
 
         .container { max-width: 450px; margin: auto; padding: 15px; box-sizing: border-box; }
-        .section-card { background: var(--white); padding: 25px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 15px; border: 1px solid #eee; }
-        h3 { margin: 0 0 15px 0; font-size: 1rem; color: var(--brand); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; }
+        .section-card { background: var(--white); padding: 25px; border-radius: 24px; box-shadow: 0 8px 20px rgba(93, 64, 55, 0.05); margin-bottom: 15px; border: 1px solid #f0e6d6; }
+        h3 { margin: 0 0 15px 0; font-size: 0.9rem; color: var(--brand); text-transform: uppercase; letter-spacing: 1.5px; border-bottom: 1px solid #fdf5f2; padding-bottom: 10px; }
 
         /* Product Showcase */
         .product-hero { text-align: center; }
-        .hero-img { width: 100%; max-width: 250px; height: 250px; border-radius: 25px; object-fit: cover; border: 1px solid #ddd; margin-bottom: 15px; background: #f0f0f0;}
-        .hero-title { font-size: 1.4rem; font-weight: 600; color: var(--brand); margin: 0; }
-        .hero-desc { font-size: 0.9rem; opacity: 0.7; margin: 10px 0; line-height: 1.5; }
-        .price-badge { display: inline-block; background: #fdf5f2; color: var(--brand); padding: 8px 16px; border-radius: 30px; font-weight: 600; font-size: 1.1rem; }
+        .hero-img { width: 100%; max-width: 280px; border-radius: 20px; object-fit: cover; border: 1px solid #eee; margin-bottom: 15px; background: #eee; }
+        .hero-title { font-size: 1.5rem; font-weight: 600; color: var(--brand); margin: 0; }
+        .hero-desc { font-size: 0.95rem; opacity: 0.8; margin: 12px 0; line-height: 1.6; font-weight: 300; }
+        .price-badge { display: inline-block; background: #fdf5f2; color: var(--brand); padding: 10px 20px; border-radius: 50px; font-weight: 600; font-size: 1.1rem; }
 
         /* Input Styling */
-        input, select, textarea { width: 100%; padding: 14px; border: 1.5px solid #eee; border-radius: 12px; font-family: inherit; font-size: 1rem; box-sizing: border-box; margin-top: 8px; }
-        input:focus { border-color: var(--brand); outline: none; }
+        input, select, textarea { width: 100%; padding: 15px; border: 1.5px solid #efebe9; border-radius: 14px; font-family: inherit; font-size: 1rem; box-sizing: border-box; margin-top: 10px; background: #fafafa; }
+        input:focus { border-color: var(--brand); outline: none; background: white; }
         textarea { resize: none; height: 70px; }
         
         /* Footer Bar */
-        .footer-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); padding: 20px 25px; border-top: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; z-index: 100; box-shadow: 0 -5px 15px rgba(0,0,0,0.03); }
-        .total-val { font-size: 1.6rem; font-weight: 600; color: var(--brand); }
-        .review-btn { background: var(--brand); color: white; border: none; padding: 16px 30px; border-radius: 15px; font-weight: 600; cursor: pointer; }
+        .footer-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); padding: 20px 30px; border-top: 1px solid #f0e6d6; display: flex; justify-content: space-between; align-items: center; z-index: 100; box-shadow: 0 -10px 25px rgba(0,0,0,0.03); }
+        .total-val { font-size: 1.8rem; font-weight: 600; color: var(--brand); }
+        .review-btn { background: var(--brand); color: white; border: none; padding: 18px 35px; border-radius: 16px; font-weight: 600; cursor: pointer; transition: 0.2s; }
 
         /* Invoice Modal */
-        #invoiceModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
-        .invoice-box { background: white; width: 100%; max-width: 320px; padding: 25px; border-radius: 15px; color: #333; text-align: left; }
+        #invoiceModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(62, 39, 35, 0.95); z-index: 1000; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
+        .invoice-box { background: white; width: 100%; max-width: 320px; padding: 30px; border-radius: 20px; color: #3e2723; text-align: left; }
         .invoice-header { text-align: center; border-bottom: 2px dashed #eee; padding-bottom: 15px; margin-bottom: 15px; }
         
-        .step-button { width: 100%; padding: 16px; border-radius: 12px; font-weight: bold; margin-top: 10px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .step-button { width: 100%; padding: 18px; border-radius: 14px; font-weight: bold; margin-top: 12px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 1rem; }
         .btn-save { background: var(--success); color: white; }
         .btn-messenger { background: var(--fb); color: white; display: none; }
     </style>
@@ -47,15 +47,15 @@
 <body>
 
 <header>
-    <h1>Cookie Co.</h1>
+    <h1>The Soft Center</h1>
     <p class="tagline">Freshly Baked • Summer '26</p>
 </header>
 
 <div class="container">
     <div class="section-card product-hero">
-        <img src="choco-chip-hero.png" class="hero-img" alt="Classic Choco Chip" onerror="this.onerror=null;this.src='https://via.placeholder.com/250x250?text=Upload+choco-chip-hero.jpg'">
+        <img src="choco-chip-hero.png" class="hero-img" alt="Classic Choco Chip" onerror="this.onerror=null;this.src='https://via.placeholder.com/250x250?text=Upload+choco-chip-hero.png'">
         <h2 class="hero-title">Classic Choco Chip</h2>
-        <p class="hero-desc">Thick, chewy, and loaded with premium, melty chocolate chunks. Hand-scooped daily in Bel Air for that perfect "soft-on-the-inside" chewiness.</p>
+        <p class="hero-desc">Thick, chewy, and loaded with premium chocolate chunks. Hand-scooped daily for that perfect "soft-on-the-inside" texture.</p>
         <div class="price-badge">₱35 per cookie</div>
     </div>
 
@@ -90,8 +90,8 @@
     <div style="text-align: center; width: 100%;">
         <div class="invoice-box" id="capture-area" style="margin: auto;">
             <div class="invoice-header">
-                <h2 style="font-family:'Pacifico'; margin:0; color:var(--brand); font-size: 1.8rem;">Cookie Co.</h2>
-                <p style="font-size: 0.6rem; letter-spacing: 1.5px; margin: 5px 0 0 0;">OFFICIAL SUMMERY RECEIPT</p>
+                <h2 style="font-family:'Pacifico'; margin:0; color:var(--brand); font-size: 1.8rem;">The Soft Center</h2>
+                <p style="font-size: 0.6rem; letter-spacing: 1.5px; margin: 5px 0 0 0;">OFFICIAL SUMMARY RECEIPT</p>
             </div>
             
             <div id="inv-details" style="font-size: 0.85rem; line-height: 1.6; padding: 10px 0;"></div>
@@ -116,7 +116,7 @@
 
     qtyInput.addEventListener('input', () => {
         let q = parseInt(qtyInput.value) || 0;
-        if (q < 0) q = 0; // Prevent negative input
+        if (q < 0) q = 0;
         priceText.innerText = q * 35;
     });
 
@@ -151,7 +151,6 @@
             link.href = canvas.toDataURL();
             link.click();
             
-            // Step-by-Step UI Update
             document.getElementById('saveBtn').innerText = "Receipt Saved! ✓";
             document.getElementById('saveBtn').style.opacity = "0.6";
             document.getElementById('msgBtn').style.display = "flex";
