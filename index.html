@@ -3,224 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Soft Center | Freshly Baked by Joaquin Roco</title>
-    
+    <title>The Soft Center | Joaquin Roco</title>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-    
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     
     <style>
-        :root {
-            --brown-dark: #4b2c20;
-            --brown-light: #8d6e63;
-            --cream: #fffaf0;
-            --accent: #d4a373;
-        }
+        :root { --brown: #4b2c20; --cream: #fffaf0; --accent: #d4a373; }
+        body { font-family: 'Quicksand', sans-serif; background-color: var(--cream); color: var(--brown); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { max-width: 450px; width: 100%; background: white; padding: 0; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; }
+        
+        /* Hero Image Section */
+        .hero-img { width: 100%; height: 250px; background-image: url('https://joaxrocz.github.io/Cookie.Co/assets/hero-shot.png'); /* Ensure path is correct */ background-size: cover; background-position: center; border-bottom: 5px solid var(--accent); }
+        
+        .content { padding: 25px; text-align: center; }
+        h1 { font-family: 'Pacifico', cursive; font-size: 2.2rem; margin: 10px 0; }
+        .inventory { color: #c62828; font-weight: bold; font-size: 0.9rem; margin-bottom: 20px; }
+        
+        .form-group { text-align: left; margin-bottom: 15px; }
+        label { font-weight: 600; font-size: 0.9rem; margin-left: 5px; }
+        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; margin-top: 5px; }
 
-        body {
-            font-family: 'Quicksand', sans-serif;
-            background-color: var(--cream);
-            color: var(--brown-dark);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        /* Invoice Overlay */
+        #invoice { display: none; background: #fdfdfd; border: 2px solid var(--brown); padding: 20px; border-radius: 15px; margin-top: 20px; text-align: left; }
+        .invoice-line { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px dashed #eee; padding-bottom: 5px; }
 
-        .container {
-            max-width: 500px;
-            width: 100%;
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            text-align: center;
-        }
-
-        h1 {
-            font-family: 'Pacifico', cursive;
-            font-size: 2.5rem;
-            margin-bottom: 5px;
-            color: var(--brown-dark);
-        }
-
-        .subtitle {
-            font-style: italic;
-            margin-bottom: 20px;
-            color: var(--brown-light);
-        }
-
-        .inventory-badge {
-            background: #fff5f5;
-            color: #c62828;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: bold;
-            border: 1px solid #ffcdd2;
-            display: inline-block;
-            margin-bottom: 25px;
-        }
-
-        .product-card {
-            border: 2px dashed var(--accent);
-            padding: 15px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-        }
-
-        .price {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--brown-dark);
-        }
-
-        .form-group {
-            text-align: left;
-            margin-bottom: 15px;
-        }
-
-        label {
-            font-weight: 600;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 1rem;
-        }
-
-        .gcash-info {
-            background: #e3f2fd;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            margin-top: 15px;
-            border: 1px solid #bbdefb;
-        }
-
-        button {
-            width: 100%;
-            background-color: var(--brown-dark);
-            color: white;
-            padding: 18px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
-            margin-top: 20px;
-        }
-
-        button:hover {
-            background-color: #3e241a;
-            transform: translateY(-2px);
-        }
-
-        button:disabled {
-            background-color: #ccc;
-        }
+        button { width: 100%; background: var(--brown); color: white; padding: 18px; border: none; border-radius: 15px; font-weight: bold; font-size: 1.1rem; cursor: pointer; margin-top: 20px; }
+        .gcash-box { background: #e3f2fd; padding: 15px; border-radius: 12px; font-size: 0.85rem; border: 1px solid #bbdefb; margin-top: 15px; }
     </style>
 </head>
 <body>
 
-    <div class="container">
+<div class="container">
+    <div class="hero-img"></div>
+    
+    <div class="content">
         <h1>The Soft Center</h1>
-        <div class="subtitle">Freshly Baked by Joaquin Roco</div>
+        <p style="margin-top:-10px; opacity:0.8;">Freshly Baked by Joaquin Roco</p>
+        <div class="inventory">🍪 Batch #1: Only 42 pieces available!</div>
 
-        <div class="inventory-badge">
-            🔥 Limited Batch: 42 pieces only!
+        <div id="order-form">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="name" placeholder="Who's eating?">
+            </div>
+            <div class="form-group">
+                <label>LBA Phase & Address</label>
+                <input type="text" id="contact" placeholder="Phase 1-4 only">
+            </div>
+            <div class="form-group">
+                <label>Quantity (₱35 per 40g cookie)</label>
+                <input type="number" id="qty" value="1" min="1">
+            </div>
+            <button id="mainBtn" onclick="generateInvoice()">Review Order</button>
         </div>
 
-        <div class="product-card">
-            <strong>Premium Choco Chip</strong><br>
-            <small>Palm Size (40g) • Crisp Edges • Gooey Center</small><br>
-            <span class="price">₱35.00</span>
+        <div id="invoice">
+            <h3 style="margin-top:0;">Order Summary</h3>
+            <div class="invoice-line"><span>Product:</span> <strong>Premium Choco Chip</strong></div>
+            <div class="invoice-line"><span>Size:</span> <strong>Palm Size (40g)</strong></div>
+            <div class="invoice-line"><span>Qty:</span> <strong id="inv-qty">0</strong></div>
+            <div class="invoice-line" style="border-bottom: 2px solid var(--brown);"><span>Total Amount:</span> <strong id="inv-total">₱0</strong></div>
+            
+            <div class="gcash-box">
+                <strong>GCash for Payment:</strong><br>
+                0917 815 6015 (Joaquin R.)
+            </div>
+            
+            <button id="confirmBtn" onclick="finalizeOrder()">Confirm & Message Joaquin</button>
+            <p style="font-size: 0.7rem; color: gray; margin-top: 10px;">Clicking confirm logs your order and opens Messenger.</p>
         </div>
-
-        <div class="form-group">
-            <label>Full Name</label>
-            <input type="text" id="name" placeholder="Enter your name">
-        </div>
-
-        <div class="form-group">
-            <label>Address / Phase (LBA 1-4)</label>
-            <input type="text" id="contact" placeholder="e.g. Phase 2, Block 1, Lot 2">
-        </div>
-
-        <div class="form-group">
-            <label>Quantity</label>
-            <input type="number" id="quantity" value="1" min="1">
-        </div>
-
-        <div class="gcash-info">
-            <strong>Payment via GCash:</strong><br>
-            0917 815 6015 (Joaquin R.)
-        </div>
-
-        <button id="orderBtn" onclick="confirmOrder()">Confirm & Message on FB</button>
     </div>
+</div>
 
-    <script>
-        // --- CONFIGURATION ---
-        const SERVICE_ID = "service_oe4hwll";
-        const TEMPLATE_ID = "template_n1n73yb";
-        const PUBLIC_KEY = "J2LADzhwnrBzCzIvd";
-        const PRICE_PER_PIECE = 35;
-        const MESSENGER_LINK = "https://m.me/joaxrocz";
+<script>
+    emailjs.init("J2LADzhwnrBzCzIvd");
 
-        // Initialize EmailJS
-        (function() {
-            emailjs.init(PUBLIC_KEY);
-        })();
+    function generateInvoice() {
+        const name = document.getElementById('name').value;
+        const contact = document.getElementById('contact').value;
+        const qty = document.getElementById('qty').value;
 
-        function confirmOrder() {
-            const name = document.getElementById('name').value;
-            const contact = document.getElementById('contact').value;
-            const quantity = parseInt(document.getElementById('quantity').value);
-            const total = quantity * PRICE_PER_PIECE;
-
-            if (!name || !contact || !quantity || quantity < 1) {
-                alert("Please fill in all details!");
-                return;
-            }
-
-            const orderDetails = `${quantity}x Premium Choco Chip (40g)`;
-            const btn = document.getElementById('orderBtn');
-
-            // UI Feedback
-            btn.innerText = "Sending Order...";
-            btn.disabled = true;
-
-            // 1. Send Backup Email (Feeds Google Sheet via Zapier)
-            const templateParams = {
-                from_name: name,
-                contact_info: contact,
-                order_details: orderDetails,
-                total_price: `₱${total}`,
-                message: `New Order: ${orderDetails} | Total: ₱${total}`
-            };
-
-            emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams)
-                .then(function() {
-                    console.log('Order Logged Successfully');
-                    
-                    // 2. Redirect to Messenger
-                    const msg = `Hi Joaquin! I'd like to order:\n\nName: ${name}\nOrder: ${orderDetails}\nTotal: ₱${total}\nAddress: ${contact}`;
-                    window.location.href = `${MESSENGER_LINK}?text=${encodeURIComponent(msg)}`;
-                    
-                }, function(error) {
-                    console.error('Error:', error);
-                    alert("Sending to Messenger...");
-                    window.location.href = MESSENGER_LINK;
-                });
+        if(!name || !contact || qty < 1) {
+            alert("Please fill in your details!");
+            return;
         }
-    </script>
+
+        document.getElementById('inv-qty').innerText = qty;
+        document.getElementById('inv-total').innerText = "₱" + (qty * 35);
+        
+        document.getElementById('order-form').style.display = 'none';
+        document.getElementById('invoice').style.display = 'block';
+    }
+
+    function finalizeOrder() {
+        const name = document.getElementById('name').value;
+        const contact = document.getElementById('contact').value;
+        const qty = document.getElementById('qty').value;
+        const total = qty * 35;
+        const orderDetails = `${qty}x Premium Choco Chip (40g)`;
+
+        const btn = document.getElementById('confirmBtn');
+        btn.innerText = "Logging Order...";
+        btn.disabled = true;
+
+        const templateParams = {
+            from_name: name,
+            contact_info: contact,
+            order_details: orderDetails,
+            total_price: `₱${total}`
+        };
+
+        emailjs.send("service_oe4hwll", "template_n1n73yb", templateParams)
+            .then(() => {
+                const msg = `Hi Joaquin! Order Summary:\n\nName: ${name}\nOrder: ${orderDetails}\nTotal: ₱${total}\nAddress: ${contact}\n\nPayment via GCash.`;
+                window.location.href = `https://m.me/joaxrocz?text=${encodeURIComponent(msg)}`;
+            }, (err) => {
+                alert("Opening Messenger...");
+                window.location.href = `https://m.me/joaxrocz`;
+            });
+    }
+</script>
+
 </body>
 </html>
